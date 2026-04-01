@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coloring Game - Solas Script</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Calibri', sans-serif;
+            background: linear-gradient(180deg, #9db4a0 0%, #8fa090 30%, #7a8080 60%, #6a7070 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+
+        .coloring-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            max-width: 900px;
+            width: 100%;
+            margin: 2rem;
+            flex: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .coloring-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, rgba(157, 180, 160, 0.1), rgba(143, 160, 144, 0.05));
+            border-left: 5px solid #9db4a0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .coloring-header h1 {
+            color: #9db4a0;
+            font-size: 2.8rem;
+            margin-bottom: 0.7rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .coloring-header p {
+            color: #666;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(157, 180, 160, 0.08), rgba(240, 248, 240, 0.5));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e8f0e8;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(157, 180, 160, 0.1);
+        }
+
+        .control-group label {
+            color: #555;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .control-group input[type="color"] {
+            width: 50px;
+            height: 45px;
+            border: 2px solid #9db4a0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-group input[type="color"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(157, 180, 160, 0.3);
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            cursor: pointer;
+            accent-color: #9db4a0;
+            height: 6px;
+        }
+
+        .control-group span {
+            color: #9db4a0;
+            font-weight: 700;
+            min-width: 45px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #9db4a0, #8fa090);
+            color: white;
+            border: none;
+            padding: 1rem 1.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(157, 180, 160, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(157, 180, 160, 0.35);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(157, 180, 160, 0.2);
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #e8f0e8, #f0f8f0);
+            color: #9db4a0;
+            border: 2px solid #9db4a0;
+        }
+
+        button.secondary:hover {
+            background: #9db4a0;
+            color: white;
+            box-shadow: 0 8px 25px rgba(157, 180, 160, 0.35);
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            border: 4px solid #9db4a0;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 40px rgba(157, 180, 160, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+        }
+
+        .canvas-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        canvas {
+            display: block;
+            cursor: crosshair;
+            background: white;
+            max-width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 0;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e8f0e8;
+        }
+
+        .back-link a {
+            color: #9db4a0;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            padding: 0.5rem;
+        }
+
+        .back-link a:hover {
+            color: #7a8080;
+            text-decoration: underline;
+            transform: translateY(-2px);
+        }
+
+        .brush-styles {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(157, 180, 160, 0.1);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .brush-styles label {
+            color: #555;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 0.5rem;
+        }
+
+        .brush-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #9db4a0;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brush-btn:hover {
+            background: #f0f8f0;
+            transform: scale(1.08);
+        }
+
+        .brush-btn.active {
+            background: #9db4a0;
+            color: white;
+            box-shadow: 0 4px 12px rgba(157, 180, 160, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="background: linear-gradient(135deg, #9db4a0 0%, #8fa090 50%, #7a9080 100%); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 4px 20px rgba(157, 180, 160, 0.3); width: 100%; box-sizing: border-box;">
+        <div class="header-left" style="display: flex; align-items: center; gap: 1rem; justify-content: center;">
+            <img src="logo.png" alt="Solas Script Logo" style="width: 60px; height: 60px; object-fit: contain;">
+            <div class="header-text">
+                <h1 class="site-name" style="font-size: 1.8rem; color: white; font-weight: 600;">Solas Script</h1>
+                <p class="tagline" style="font-style: italic; color: white; font-size: 0.9rem;">Your personal haven.</p>
+            </div>
+        </div>
+        <nav class="header-right" style="display: flex; align-items: center; gap: 2rem;">
+            <button class="back-btn" onclick="window.location.href='index.html'" style="background: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: #9db4a0;">← Back</button>
+            <button class="quick-exit" onclick="if(confirm('Are you sure?')) window.location.href='index.html';" style="background: #d4a574; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Exit</button>
+        </nav>
+    </header>
+    <div class="coloring-container">
+        <div class="coloring-header">
+            <h1>🎨 Coloring & Drawing</h1>
+            <p>Express yourself through colors and art. Relax and create!</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="colorPicker">Color:</label>
+                <input type="color" id="colorPicker" value="#9db4a0">
+            </div>
+
+            <div class="control-group">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="50" value="5">
+                <span id="sizeDisplay">5px</span>
+            </div>
+
+            <div class="brush-styles">
+                <label>Brush Style:</label>
+                <button class="brush-btn active" id="penBrush" onclick="setBrushStyle('pen')" title="Pen">✏️</button>
+                <button class="brush-btn" id="circleBrush" onclick="setBrushStyle('circle')" title="Circle">⭕</button>
+                <button class="brush-btn" id="squareBrush" onclick="setBrushStyle('square')" title="Square">⬜</button>
+                <button class="brush-btn" id="eraserBrush" onclick="setBrushStyle('eraser')" title="Eraser">🧹</button>
+            </div>
+
+            <div class="button-group">
+                <button onclick="clearCanvas()">Clear Canvas</button>
+                <button class="secondary" onclick="downloadDrawing()">Download</button>
+                <button class="secondary" onclick="window.location.href='index.html#unwind'">← Back</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="drawingCanvas" width="800" height="500"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const sizeDisplay = document.getElementById('sizeDisplay');
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let brushStyle = 'pen';
+
+    
+        function resizeCanvas() {
+            const container = document.querySelector('.canvas-container');
+            const maxWidth = Math.min(container.offsetWidth - 20, 800);
+            canvas.width = maxWidth;
+            canvas.height = 500 * (maxWidth / 800);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+      
+        brushSize.addEventListener('input', (e) => {
+            sizeDisplay.textContent = e.target.value + 'px';
+        });
+
+     
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const size = brushSize.value;
+
+            if (brushStyle === 'eraser') {
+                ctx.clearRect(x - size / 2, y - size / 2, size, size);
+            } else if (brushStyle === 'circle') {
+                ctx.fillStyle = colorPicker.value;
+                ctx.beginPath();
+                ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (brushStyle === 'square') {
+                ctx.fillStyle = colorPicker.value;
+                ctx.fillRect(x - size / 2, y - size / 2, size, size);
+            } else {
+                // Pen (default)
+                ctx.strokeStyle = colorPicker.value;
+                ctx.lineWidth = size;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+
+            lastX = x;
+            lastY = y;
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDrawing = false;
+        });
+
+    
+        canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousedown', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            const mouseEvent = new MouseEvent('mouseup', {});
+            canvas.dispatchEvent(mouseEvent);
+        });
+
+       
+        function clearCanvas() {
+            if (confirm('Are you sure you want to clear the canvas?')) {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+       
+        function downloadDrawing() {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'my-drawing-' + new Date().getTime() + '.png';
+            link.click();
+        }
+
+        function setBrushStyle(style) {
+            brushStyle = style;
+            
+             
+            document.querySelectorAll('.brush-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (style === 'pen') {
+                document.getElementById('penBrush').classList.add('active');
+            } else if (style === 'circle') {
+                document.getElementById('circleBrush').classList.add('active');
+            } else if (style === 'square') {
+                document.getElementById('squareBrush').classList.add('active');
+            } else if (style === 'eraser') {
+                document.getElementById('eraserBrush').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

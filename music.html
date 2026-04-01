@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music - Solas Script</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Calibri', sans-serif;
+            background: linear-gradient(180deg, #9db4a0 0%, #8fa090 30%, #7a8080 60%, #6a7070 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .music-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .music-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f8f5 100%);
+            border-radius: 15px 15px 0 0;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 6px solid #1DB954;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .music-header h1 {
+            color: #1DB954;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .music-header p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .music-info {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.1), rgba(29, 185, 84, 0.05));
+            padding: 1.5rem;
+            border-radius: 10px;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            border-left: 4px solid #1DB954;
+            line-height: 1.6;
+        }
+
+        .spotify-container {
+            background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+            padding: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .spotify-embed {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(157, 180, 160, 0.2);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, #9db4a0, #8fa090);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(157, 180, 160, 0.3);
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #e8f0e8, #f0f8f0);
+            color: #9db4a0;
+            border: 2px solid #9db4a0;
+        }
+
+        button.secondary:hover {
+            background: #9db4a0;
+            color: white;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.5rem;
+            background: rgba(157, 180, 160, 0.3);
+            border-radius: 8px;
+            border: 2px solid white;
+        }
+
+        .back-link a:hover {
+            background: rgba(157, 180, 160, 0.5);
+        }
+
+        .playlist-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3);
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .music-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .music-header p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="background: linear-gradient(135deg, #9db4a0 0%, #8fa090 50%, #7a9080 100%); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(157, 180, 160, 0.3); position: sticky; top: 0; z-index: 100;">
+        <div class="header-left" style="display: flex; align-items: center; gap: 1rem;">
+            <img src="logo.png" alt="Solas Script Logo" style="width: 60px; height: 60px; object-fit: contain;">
+            <div class="header-text">
+                <h1 class="site-name" style="font-size: 1.8rem; color: white; font-weight: 600;">Solas Script</h1>
+                <p class="tagline" style="font-style: italic; color: white; font-size: 0.9rem;">Your personal haven.</p>
+            </div>
+        </div>
+        <nav class="header-right" style="display: flex; align-items: center; gap: 2rem;">
+            <button class="back-btn" onclick="window.location.href='index.html'" style="background: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: #9db4a0;">← Back</button>
+            <button class="quick-exit" onclick="if(confirm('Are you sure?')) window.location.href='index.html';" style="background: #d4a574; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Exit</button>
+        </nav>
+    </header>
+    <div class="music-container">
+        <div class="music-header">
+            <h1>🎵 Relaxing Music</h1>
+            <p>Unwind to curated relaxing tracks</p>
+            
+            <div class="playlist-info">
+                <div class="info-card">
+                    <h3>Mood</h3>
+                    <p>Calm & Relaxing</p>
+                </div>
+                <div class="info-card">
+                    <h3>Genre</h3>
+                    <p>Chill & Ambient</p>
+                </div>
+                <div class="info-card">
+                    <h3>Best For</h3>
+                    <p>Stress Relief</p>
+                </div>
+            </div>
+
+            <div class="music-info">
+                ✨ Enjoy a carefully curated collection of 25+ relaxing songs perfect for unwinding, studying, or meditation. Each track has been selected to promote calmness and reduce stress.
+            </div>
+        </div>
+
+        <div class="spotify-container">
+            <div style="margin-bottom: 2rem;">
+                <button class="secondary" onclick="window.location.href='index.html#unwind'" style="border: 2px solid #1DB954; color: white; background: linear-gradient(135deg, #9db4a0, #8fa090); padding: 0.8rem 1.5rem; border-radius: 50px; font-size: 0.95rem;">← Back to Solas Script</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+            
+                <div>
+                    <h2 style="color: #1DB954; margin-bottom: 0.5rem; font-size: 1.8rem; font-weight: 700;">⭐ Featured</h2>
+                    <p style="color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">Handpicked tracks to elevate your mood</p>
+                    
+                    <div class="spotify-embed" style="box-shadow: 0 10px 40px rgba(29, 185, 84, 0.15); border: 1px solid rgba(29, 185, 84, 0.1); margin-bottom: 1rem;">
+                        <iframe src="https://open.spotify.com/embed/playlist/2AFDF7GpBe5A2gKZfVxVaU?utm_source=generator&theme=dark" width="100%" height="500" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <div class="controls" style="margin-top: 1rem; justify-content: center; gap: 0.8rem; flex-direction: column;">
+                        <a href="https://open.spotify.com/playlist/2AFDF7GpBe5A2gKZfVxVaU" target="_blank" rel="noopener noreferrer">
+                            <button style="background: linear-gradient(135deg, #1DB954, #1ed760); padding: 0.8rem 1.5rem; font-size: 0.95rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3); width: 100%;">🎵 Open in Spotify</button>
+                        </a>
+                        <a href="https://open.spotify.com/user/31yoerwza7jcfnfgxg4x3g3nprgq" target="_blank" rel="noopener noreferrer">
+                            <button style="background: linear-gradient(135deg, #9db4a0, #8fa090); padding: 0.8rem 1.5rem; font-size: 0.95rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(157, 180, 160, 0.3); width: 100%;">👤 Visit Curator</button>
+                        </a>
+                    </div>
+                </div>
+
+            
+                <div>
+                    <h2 style="color: #1DB954; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 700;">🎧 More Playlists</h2>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, #1DB954, #1ed760); padding: 1.8rem; border-radius: 15px; text-align: center; border: none; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(29, 185, 84, 0.2); cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(29, 185, 84, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(29, 185, 84, 0.2)'">
+                            <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">🌙 Chill Vibes Mix</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem; font-size: 0.9rem;">Perfect for relaxing evenings</p>
+                            <a href="https://open.spotify.com/playlist/2hZYfl4y9gY4J5rZ3SbRJK" target="_blank" rel="noopener noreferrer">
+                                <button style="background: white; color: #1DB954; width: 100%; font-weight: 700; border: none; padding: 0.7rem; border-radius: 8px; cursor: pointer;">► Listen Now</button>
+                            </a>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, #1DB954, #1ed760); padding: 1.8rem; border-radius: 15px; text-align: center; border: none; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(29, 185, 84, 0.2); cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(29, 185, 84, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(29, 185, 84, 0.2)'">
+                            <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">✨ Relaxation Session</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.2rem; font-size: 0.9rem;">Meditation & healing sounds</p>
+                            <a href="https://open.spotify.com/playlist/3suZ1UI7n8iikmb58tTEwI" target="_blank" rel="noopener noreferrer">
+                                <button style="background: white; color: #1DB954; width: 100%; font-weight: 700; border: none; padding: 0.7rem; border-radius: 8px; cursor: pointer;">► Listen Now</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

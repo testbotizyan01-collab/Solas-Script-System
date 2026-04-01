@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creators - Solas Script</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <style>
+        .creators-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #f0f8f7 0%, #e8f5f2 100%);
+        }
+
+        .creators-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .creators-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c5f52;
+            margin-bottom: 1rem;
+        }
+
+        .creators-subtitle {
+            text-align: center;
+            color: #6b9b8d;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .creator-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #6b9b8d;
+        }
+
+        .creator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .creator-card.leader {
+            border-top: 4px solid #d4a574;
+            grid-column: span 1;
+        }
+
+        .creator-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6b9b8d, #9db4a0);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .creator-card.leader .creator-avatar {
+            background: linear-gradient(135deg, #d4a574, #e6c9a0);
+        }
+
+        .creator-name {
+            font-size: 1.3rem;
+            color: #2c5f52;
+            margin: 1rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        .creator-role {
+            color: #6b9b8d;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .creator-card.leader .creator-role {
+            color: #d4a574;
+        }
+
+        .creator-description {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .leader-section {
+            margin-bottom: 3rem;
+        }
+
+        .leader-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #2c5f52;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .members-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #2c5f52;
+            margin-bottom: 2rem;
+            margin-top: 3rem;
+            font-weight: 600;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mission-statement {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #6b9b8d;
+            margin-top: 3rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .mission-statement h3 {
+            color: #2c5f52;
+            margin-top: 0;
+        }
+
+        .mission-statement p {
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <img src="logo.png" alt="Solas Script Logo" class="logo">
+            <div class="header-text">
+                <h1 class="site-name">Solas Script</h1>
+                <p class="tagline">Your personal haven.</p>
+            </div>
+        </div>
+        <nav class="header-right">
+            <ul class="nav-menu">
+                <li><a href="index.html#mission">OLFU Mission and Vision</a></li>
+                <li><a href="index.html#about">About Us</a></li>
+                <li><a href="olfu-details.html">OLFU Details</a></li>
+                <li><a href="care-concept.html">Care Concept</a></li>
+                <li><a href="program-details.html">Program Details</a></li>
+            </ul>
+            <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+            <button class="quick-exit">Exit</button>
+        </nav>
+    </header>
+
+    <section class="creators-section">
+        <div class="creators-container">
+            <h1 class="creators-title">Meet the Creators</h1>
+            <p class="creators-subtitle">The passionate team behind Solas Script</p>
+
+            <div class="leader-section">
+                <h2 class="leader-title">Project Leader</h2>
+                <div class="team-grid" style="grid-template-columns: 1fr;">
+                    <div class="creator-card leader">
+                        <img src="leader.jpg" alt="Sheena Rhaine Arquero" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name">Sheena Rhaine Arquero</h3>
+                        <p class="creator-role">Project Leader</p>
+                        <p class="creator-description">Visionary leader guiding the team through every step of creating Solas Script. Dedicated to fostering mental health awareness and student well-being.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="members-title">Team Members</h2>
+                <div class="members-grid">
+                    <div class="creator-card">
+                      <img src="mem1.jpg" alt="Gian Carlo Vargas Alvarez" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name">GianCarlo Vargas Alvarez</h3>
+                        <p class="creator-role">Team Member</p>
+                        <p class="creator-description">Contributing to the mission of supporting student mental health.</p>
+                    </div>
+
+                    <div class="creator-card">
+                      <img src="mem2.jpg" alt="Norelgene T. Bermudez" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name">Norelgene T. Bermudez</h3>
+                        <p class="creator-role">Team Member</p>
+                        <p class="creator-description">Contributing to the mission of supporting student mental health.</p>
+                    </div>
+
+                    <div class="creator-card">
+                     <img src="mem3.jpg" alt="Christine Joyce L. Borja" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name">Christine Joyce L. Borja</h3>
+                        <p class="creator-role">Team Member</p>
+                        <p class="creator-description">Contributing to the mission of supporting student mental health.</p>
+                    </div>
+
+                    <div class="creator-card">
+                      <img src="mem4.jpg" alt=" Josh Andrei S. Perona" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name"> Josh Andrei S. Perona</h3>
+                        <p class="creator-role">Team Member</p>
+                        <p class="creator-description">Contributing to the mission of supporting student mental health.</p>
+                    </div>
+
+                    <div class="creator-card">
+                      <img src="mem5.jpg" alt="Khaye Claire B. Peñas" class="creator-avatar" style="border-radius: 50%; object-fit: cover;">
+                        <h3 class="creator-name">Khaye Claire B. Peñas</h3>
+                        <p class="creator-role">Team Member</p>
+                        <p class="creator-description">Contributing to the mission of supporting student mental health.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-statement">
+                <h3>Our Shared Mission</h3>
+                <p>Together, as a dedicated team from Our Lady of Fatima University's HUMSS strand, we created Solas Script to fulfill a simple but powerful vision: ensuring that every student has access to mental health support, professional guidance, and a safe digital space to process their emotions and find peace.</p>
+                <p>Every feature, every color, every line of code reflects our commitment to student well-being and our belief that mental health is a journey we don't have to take alone.</p>
+            </div>
+        </div>
+    </section>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()">↑ Back to Top</button>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Emergency Support</h4>
+                <p>Mental health emergency centers/organizations' hotline numbers:</p>
+                <ul class="hotline-list">
+                    <li>National Mental Health Hotline: 1-800-273-8255</li>
+                    <li>Crisis Text Line: Text HOME to 741741</li>
+                    <li>OLFU Guidance Services: (02) ##########</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="olfu-qc-details.html">HUMSS Guidance Facility</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/share/1GJotcQ1Td/?mibextid=wwXIfr" target="_blank">FB: Solas Script</a></li>
+                    <li><a href="https://x.com/solasscript?s=21" target="_blank">X: @solasscript</a></li>
+                    <li><a href="https://www.instagram.com/solas.script?igsh=ZGRmd3ozZXE1dA%3D%3D&utm_source=qr" target="_blank">IG: @solas.script</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p><small>⚠️ Disclaimer: This is a student project created by the Our Lady of Fatima University team. The ideas and features have been verified by the school to ensure safety and support for student mental health.</small></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

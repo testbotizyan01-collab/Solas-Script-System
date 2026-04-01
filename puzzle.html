@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game - Solas Script</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Calibri', sans-serif;
+            background: linear-gradient(180deg, #9db4a0 0%, #8fa090 30%, #7a8080 60%, #6a7070 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+
+        .puzzle-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin: 2rem;
+            flex: 1;
+        }
+
+        .puzzle-header {
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #9db4a0;
+            padding-bottom: 1rem;
+        }
+
+        .puzzle-header h1 {
+            color: #9db4a0;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .puzzle-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .puzzle-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e8f0e8, #f0f8f0);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #9db4a0;
+        }
+
+        .info-box h3 {
+            color: #9db4a0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box p {
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 10px;
+            border: 2px solid #9db4a0;
+        }
+
+        .puzzle-tile {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #9db4a0, #8fa090);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .puzzle-tile:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(157, 180, 160, 0.3);
+        }
+
+        .puzzle-tile:disabled {
+            background: #e8f0e8;
+            color: #9db4a0;
+            cursor: default;
+        }
+
+        .puzzle-tile:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #9db4a0, #8fa090);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(157, 180, 160, 0.3);
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #e8f0e8, #f0f8f0);
+            color: #9db4a0;
+            border: 2px solid #9db4a0;
+        }
+
+        button.secondary:hover {
+            background: #9db4a0;
+            color: white;
+        }
+
+        .message {
+            color: #9db4a0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            min-height: 30px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #9db4a0;
+        }
+
+        .back-link a {
+            color: #9db4a0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #7a8080;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="background: linear-gradient(135deg, #9db4a0 0%, #8fa090 50%, #7a9080 100%); padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; box-shadow: 0 4px 20px rgba(157, 180, 160, 0.3); width: 100%; box-sizing: border-box;">
+        <div class="header-left" style="display: flex; align-items: center; gap: 1rem; justify-content: center;">
+            <img src="logo.png" alt="Solas Script Logo" style="width: 60px; height: 60px; object-fit: contain;">
+            <div class="header-text">
+                <h1 class="site-name" style="font-size: 1.8rem; color: white; font-weight: 600;">Solas Script</h1>
+                <p class="tagline" style="font-style: italic; color: white; font-size: 0.9rem;">Your personal haven.</p>
+            </div>
+        </div>
+        <nav class="header-right" style="display: flex; align-items: center; gap: 2rem;">
+            <button class="back-btn" onclick="window.location.href='index.html'" style="background: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: #9db4a0;">← Back</button>
+            <button class="quick-exit" onclick="if(confirm('Are you sure?')) window.location.href='index.html';" style="background: #d4a574; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Exit</button>
+        </nav>
+    </header>
+    <div class="puzzle-container">
+        <div class="puzzle-header">
+            <h1>🧩 Number Puzzle</h1>
+            <p>Arrange the numbers in order. Click tiles to move them!</p>
+        </div>
+
+        <div class="puzzle-info">
+            <div class="info-box">
+                <h3>Moves</h3>
+                <p id="moveCount">0</p>
+            </div>
+            <div class="info-box">
+                <h3>Best Score</h3>
+                <p id="bestScore">-</p>
+            </div>
+        </div>
+
+        <div class="puzzle-grid" id="puzzleGrid"></div>
+
+        <div class="message" id="message"></div>
+
+        <div class="button-group">
+            <button onclick="shufflePuzzle()">Shuffle</button>
+            <button onclick="newGame()">New Game</button>
+            <button class="secondary" onclick="window.location.href='index.html#unwind'">← Back</button>
+        </div>
+    </div>
+
+    <script>
+        const gridSize = 4;
+        const totalTiles = gridSize * gridSize;
+        let tiles = [...Array(totalTiles).keys()];
+        let moves = 0;
+        let gameWon = false;
+
+        const puzzleGrid = document.getElementById('puzzleGrid');
+        const messageDisplay = document.getElementById('message');
+        const moveCount = document.getElementById('moveCount');
+        const bestScore = document.getElementById('bestScore');
+ 
+        function loadBestScore() {
+            const saved = localStorage.getItem('puzzleBestScore');
+            if (saved) {
+                bestScore.textContent = saved;
+            }
+        }
+
+    
+        function initGame() {
+            renderPuzzle();
+            loadBestScore();
+        }
+
+     
+        function renderPuzzle() {
+            puzzleGrid.innerHTML = '';
+            tiles.forEach((tile, index) => {
+                const button = document.createElement('button');
+                button.className = 'puzzle-tile';
+                
+                if (tile === totalTiles - 1) {
+                    button.disabled = true;
+                    button.textContent = '';
+                } else {
+                    button.textContent = tile + 1;
+                    button.onclick = () => moveTile(index);
+                }
+                
+                puzzleGrid.appendChild(button);
+            });
+
+            checkWin();
+        }
+ 
+        function moveTile(index) {
+            if (gameWon) return;
+
+            const emptyIndex = tiles.indexOf(totalTiles - 1);
+            const isAdjacent = isNeighbor(index, emptyIndex);
+
+            if (isAdjacent) {
+                [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+                moves++;
+                moveCount.textContent = moves;
+                renderPuzzle();
+            } else {
+                messageDisplay.textContent = '❌ Can only move tiles next to the empty space!';
+                setTimeout(() => messageDisplay.textContent = '', 2000);
+            }
+        }
+
+     
+        function isNeighbor(index1, index2) {
+            const row1 = Math.floor(index1 / gridSize);
+            const col1 = index1 % gridSize;
+            const row2 = Math.floor(index2 / gridSize);
+            const col2 = index2 % gridSize;
+
+            return (Math.abs(row1 - row2) + Math.abs(col1 - col2)) === 1;
+        }
+
+    
+        function shufflePuzzle() {
+            gameWon = false;
+            moves = 0;
+            moveCount.textContent = moves;
+            messageDisplay.textContent = '';
+
+            for (let i = 0; i < 200; i++) {
+                const emptyIndex = tiles.indexOf(totalTiles - 1);
+                const neighbors = getNeighbors(emptyIndex);
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                [tiles[emptyIndex], tiles[randomNeighbor]] = [tiles[randomNeighbor], tiles[emptyIndex]];
+            }
+
+            renderPuzzle();
+        }
+
+        
+        function getNeighbors(index) {
+            const neighbors = [];
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+
+            if (row > 0) neighbors.push(index - gridSize);
+            if (row < gridSize - 1) neighbors.push(index + gridSize);
+            if (col > 0) neighbors.push(index - 1);
+            if (col < gridSize - 1) neighbors.push(index + 1);
+
+            return neighbors;
+        }
+
+    
+        function checkWin() {
+            const isWon = tiles.every((tile, index) => tile === index);
+            
+            if (isWon && !gameWon) {
+                gameWon = true;
+                messageDisplay.innerHTML = '🎉 <strong>Congratulations! You won!</strong>';
+                messageDisplay.style.color = '#9db4a0';
+
+                const currentBest = parseInt(localStorage.getItem('puzzleBestScore') || Infinity);
+                if (moves < currentBest) {
+                    localStorage.setItem('puzzleBestScore', moves);
+                    bestScore.textContent = moves;
+                }
+            }
+        }
+
+   
+        function newGame() {
+            tiles = [...Array(totalTiles).keys()];
+            shufflePuzzle();
+        }
+
+   
+        initGame();
+        shufflePuzzle();
+    </script>
+</body>
+</html>
